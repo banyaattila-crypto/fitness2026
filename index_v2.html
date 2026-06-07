@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Body Fitness 2026 v2</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#020810;--bg2:#040e1c;--bg3:#081626;--card:#050d18;
+  --border:#0f2038;--bord-g:#6b4f00;
+  --gold:#F5C518;--gold2:#FF9800;--gold3:#FF6F00;
+  --blue:#1E88E5;--cyan:#00BCD4;--green:#00E676;--coral:#FF5252;
+  --text:#E8F0FE;--text2:#3D6080;
+  --gg:linear-gradient(135deg,#F5C518,#FF9800);
+  --gb:linear-gradient(135deg,#1E88E5,#00BCD4);
+  --gh:linear-gradient(135deg,#F5C518 0%,#FF9800 45%,#1E88E5 100%);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+body{padding-bottom:72px}
+
+/* HEADER */
+.hdr{background:var(--bg2);border-bottom:1px solid var(--bord-g);padding:12px 16px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+  box-shadow:0 2px 20px rgba(245,197,24,.12)}
+.hdr-text h1{font-size:15px;font-weight:900;background:var(--gh);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.8px}
+.hdr-text p{font-size:10px;color:var(--text2);margin-top:3px;letter-spacing:.3px}
+
+/* BOTTOM NAV */
+.nav{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:200;padding-bottom:env(safe-area-inset-bottom)}
+.nbtn{flex:1;padding:9px 4px 7px;border:none;background:transparent;color:var(--text2);cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.nbtn.active{color:var(--gold)}
+.nbtn.active i{filter:drop-shadow(0 0 6px rgba(245,197,24,.6))}
+.nbtn i{font-size:18px;display:block}
+.nbtn span{font-size:9px;display:block;margin-top:2px;font-weight:600}
+
+/* SECTIONS */
+.sec{display:none;padding:14px}
+.sec.active{display:block}
+.sec-title{font-size:20px;font-weight:900;margin-bottom:16px}
+.sec-title em{background:var(--gg);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-style:normal}
+
+/* WEEK TABS */
+.wtabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding:2px 0 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.wtabs::-webkit-scrollbar{display:none}
+.wtab{flex-shrink:0;padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;font-size:11px;font-weight:700;white-space:nowrap;transition:all .2s}
+.wtab.active{background:var(--gg);color:#000;border-color:transparent;box-shadow:0 2px 12px rgba(245,197,24,.35)}
+
+/* PHASE INFO */
+.phase-info{border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:12px;font-weight:600;
+  background:linear-gradient(135deg,rgba(245,197,24,.1),rgba(255,152,0,.08));
+  border:1px solid var(--bord-g);color:var(--gold)}
+
+/* DAY CARDS */
+.dcard{border-radius:14px;margin-bottom:10px;border:1px solid var(--border);overflow:hidden;
+  background:linear-gradient(180deg,var(--bg3) 0%,var(--card) 100%)}
+.dhdr{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:background .2s}
+.dhdr:active{background:rgba(245,197,24,.05)}
+.dname{font-size:14px;font-weight:800}
+.dright{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.dbadge{font-size:10px;padding:3px 9px;border-radius:10px;font-weight:800;letter-spacing:.5px}
+.dbadge.edzes{background:var(--gg);color:#000}
+.dbadge.piheno{background:var(--border);color:var(--text2)}
+.dkcal{font-size:12px;font-weight:800;background:var(--gb);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.dprot{font-size:12px;font-weight:700;color:var(--gold)}
+.dcaret{color:var(--text2);font-size:12px;transition:transform .25s}
+.dcontent{display:none;padding:0 12px 12px}
+
+/* MEAL ITEMS */
+.mitem{background:var(--bg2);border-radius:10px;margin-bottom:7px;overflow:hidden;border:1px solid transparent;transition:border-color .2s}
+.mitem:last-child{margin-bottom:0}
+.mhdr{padding:10px 12px;display:flex;justify-content:space-between;align-items:flex-start;cursor:pointer}
+.mleft h4{font-size:13px;font-weight:800}
+.mlabel{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--gold2);margin-bottom:2px;display:block}
+.mleft p{font-size:11px;color:var(--text2);margin-top:1px}
+.mright{text-align:right;flex-shrink:0;margin-left:10px}
+.mkcal{font-size:13px;font-weight:800;background:var(--gb);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.mmacro{font-size:10px;color:var(--text2)}
+.mdetail{display:none;padding:8px 12px 12px;border-top:1px solid var(--border)}
+.ming-list{margin-bottom:10px;display:flex;flex-wrap:wrap;gap:5px}
+.ming{font-size:11px;background:var(--bg3);padding:4px 9px;border-radius:8px;color:var(--text2);border:1px solid var(--border)}
+.mrec{font-size:11px;color:var(--text);line-height:1.8;white-space:pre-line}
+.shake-item{border:1px solid rgba(245,197,24,.3)!important;background:rgba(245,197,24,.05)!important}
+
+/* TRAINING */
+.tcard{border-radius:14px;margin-bottom:10px;border:1px solid var(--border);overflow:hidden;
+  background:linear-gradient(180deg,var(--bg3) 0%,var(--card) 100%)}
+.thdr{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.tfocus{font-size:14px;font-weight:800}
+.ttag{font-size:10px;padding:4px 10px;border-radius:8px;font-weight:800;letter-spacing:.3px}
+.ttag.push{background:linear-gradient(135deg,rgba(30,136,229,.3),rgba(0,188,212,.2));color:var(--cyan);border:1px solid rgba(0,188,212,.3)}
+.ttag.pull{background:linear-gradient(135deg,rgba(0,188,212,.3),rgba(0,230,118,.2));color:var(--green);border:1px solid rgba(0,230,118,.3)}
+.ttag.shoulders{background:linear-gradient(135deg,rgba(245,197,24,.3),rgba(255,152,0,.2));color:var(--gold);border:1px solid var(--bord-g)}
+.ttag.legs{background:linear-gradient(135deg,rgba(0,230,118,.3),rgba(0,188,212,.2));color:var(--green);border:1px solid rgba(0,230,118,.3)}
+.ttag.rest{background:var(--border);color:var(--text2);border:1px solid var(--border)}
+.tcontent{display:none;padding:0 12px 12px}
+.twu{font-size:11px;color:var(--text2);margin:8px 0 12px;line-height:1.7;padding:8px;background:var(--bg2);border-radius:8px;border-left:3px solid var(--gold2)}
+.exrow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)}
+.exrow:last-child{border-bottom:none}
+.exname{font-size:13px;font-weight:700}
+.exdet{font-size:11px;color:var(--text2);margin-top:2px}
+.exkg{font-size:13px;font-weight:900;background:var(--gg);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tcd{font-size:11px;color:var(--text2);margin-top:10px;padding:8px;border-radius:8px;background:var(--bg2);border-left:3px solid var(--cyan);line-height:1.7}
+.rest-day{text-align:center;padding:24px 16px;color:var(--text2)}
+.rest-day i{font-size:28px;margin-bottom:8px;display:block;color:var(--border)}
+.rest-day p{font-size:13px}
+
+/* SHOPPING */
+.shop-trip{border-radius:14px;margin-bottom:10px;border:1px solid var(--border);overflow:hidden;
+  background:linear-gradient(180deg,var(--bg3) 0%,var(--card) 100%)}
+.strip-hdr{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.strip-title{font-size:14px;font-weight:800}
+.strip-sub{font-size:11px;color:var(--text2);margin-top:2px}
+.strip-body{display:none;padding:0 14px 14px}
+.shop-cat{font-size:10px;font-weight:800;color:var(--gold);letter-spacing:2px;padding:12px 0 5px;text-transform:uppercase;border-bottom:1px solid rgba(245,197,24,.15);margin-bottom:4px}
+.shop-item{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border)}
+.shop-item:last-child{border-bottom:none}
+.shop-item input[type=checkbox]{width:19px;height:19px;accent-color:var(--gold);flex-shrink:0;cursor:pointer}
+.shop-item label{font-size:13px;cursor:pointer;flex:1}
+.shop-item.done label{text-decoration:line-through;color:var(--text2);opacity:.6}
+.shop-note{font-size:11px;color:var(--text2);padding:10px 12px;background:rgba(245,197,24,.06);border-radius:10px;border:1px solid rgba(245,197,24,.15);margin-bottom:12px;line-height:1.7}
+
+/* LOG */
+.log-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.log-card{background:var(--bg3);border-radius:12px;border:1px solid var(--border);padding:14px;
+  background:linear-gradient(135deg,var(--bg3),var(--card))}
+.log-card h3{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
+.log-stat{font-size:28px;font-weight:900;background:var(--gg);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.log-sub{font-size:11px;color:var(--text2);margin-top:2px}
+.chart-wrap{border-radius:14px;border:1px solid var(--border);padding:16px;margin-bottom:14px;
+  background:linear-gradient(180deg,var(--bg3),var(--card))}
+.chart-wrap h3{font-size:14px;font-weight:800;margin-bottom:14px}
+.chart-wrap h3 i{margin-right:6px}
+.inp-row{display:flex;gap:8px;margin-bottom:10px}
+.inp{flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:13px;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--bord-g)}
+.btn{padding:10px 18px;border-radius:10px;border:none;background:var(--gg);color:#000;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;transition:opacity .2s}
+.btn:active{opacity:.8}
+.pr-form{display:grid;gap:8px;margin-bottom:14px}
+.pr-sel{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:13px;outline:none}
+.pr-table{width:100%;border-collapse:collapse;font-size:12px}
+.pr-table th{text-align:left;padding:8px 6px;color:var(--text2);border-bottom:1px solid var(--border);font-weight:700;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.pr-table td{padding:9px 6px;border-bottom:1px solid var(--border)}
+.pr-table tr:last-child td{border-bottom:none}
+.pr-kg{font-weight:900;background:var(--gg);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.data-note{font-size:11px;color:var(--text2);padding:10px 12px;background:rgba(30,136,229,.07);border-radius:10px;border:1px solid rgba(30,136,229,.2);margin-bottom:12px;line-height:1.7}
+.empty-state{text-align:center;padding:30px 20px;color:var(--text2);font-size:13px}
+
+/* SUPPLEMENTS */
+.supp-card{border-radius:14px;margin-bottom:10px;padding:18px;
+  background:linear-gradient(135deg,var(--bg3),var(--card));
+  border:1px solid var(--border);position:relative;overflow:hidden}
+.supp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gg)}
+.supp-icon{font-size:28px;margin-bottom:10px;display:block}
+.supp-name{font-size:16px;font-weight:900;margin-bottom:4px}
+.supp-when{font-size:11px;font-weight:800;margin-bottom:10px;padding:4px 10px;border-radius:8px;display:inline-block;
+  background:rgba(245,197,24,.12);color:var(--gold);border:1px solid rgba(245,197,24,.25)}
+.supp-desc{font-size:12px;color:var(--text2);line-height:1.8}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-text">
+    <h1><i class="fa fa-bolt" style="margin-right:6px"></i>BODY FITNESS 2026 v2</h1>
+    <p>8 h&#233;t &bull; Body Recomp &bull; 2026. j&#250;n. 9 &ndash; aug. 3. &bull; 96 kg &bull; 173 cm</p>
+  </div>
+  <svg viewBox="0 0 80 80" width="46" height="46" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="10,34 40,6 70,34 62,34 40,18 18,34" fill="#F5C518"/>
+    <polygon points="14,58 40,38 66,58 59,58 40,50 21,58" fill="#1E88E5"/>
+    <line x1="22" y1="36" x2="58" y2="36" stroke="#00BCD4" stroke-width="1.5" opacity="0.9"/>
+    <text x="40" y="74" text-anchor="middle" fill="#FF9800" font-size="8" font-weight="700" font-family="sans-serif" letter-spacing="2">BF26</text>
+  </svg>
+</div>
+
+<section id="s-diet" class="sec active">
+  <div class="sec-title">&#201;trend &mdash; <em>8 h&#233;t</em></div>
+  <div class="wtabs" id="diet-tabs"></div>
+  <div id="diet-content"></div>
+</section>
+
+<section id="s-train" class="sec">
+  <div class="sec-title">Edz&#233;s &mdash; <em>8 h&#233;t</em></div>
+  <div class="wtabs" id="train-tabs"></div>
+  <div id="train-content"></div>
+</section>
+
+<section id="s-shop" class="sec">
+  <div class="sec-title">Bev&#225;s&#225;rl&#225;s</div>
+  <div class="wtabs" id="shop-tabs"></div>
+  <div id="shop-content"></div>
+</section>
+
+<section id="s-log" class="sec">
+  <div class="sec-title">Napl&#243; &mdash; <em>halad&#225;s</em></div>
+  <div id="log-content"></div>
+</section>
+
+<section id="s-supp" class="sec">
+  <div class="sec-title">Kieg&#233;sz&#237;t&#337;k</div>
+  <div id="supp-content"></div>
+</section>
+
+<nav class="nav">
+  <button class="nbtn active" data-sec="diet"><i class="fa fa-utensils"></i><span>&#201;trend</span></button>
+  <button class="nbtn" data-sec="train"><i class="fa fa-dumbbell"></i><span>Edz&#233;s</span></button>
+  <button class="nbtn" data-sec="shop"><i class="fa fa-cart-shopping"></i><span>Bev&#225;s.</span></button>
+  <button class="nbtn" data-sec="log"><i class="fa fa-chart-line"></i><span>Napl&#243;</span></button>
+  <button class="nbtn" data-sec="supp"><i class="fa fa-pills"></i><span>Kieg.</span></button>
+</nav>
+
+<script>
+// ---- NAVIGATION ----
+document.querySelectorAll('.nbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.sec;
+    document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+    document.getElementById('s-'+id).classList.add('active');
+    document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    if(id==='log') renderLog();
+  });
+});
+
+// ---- DATA ----
+const M={
+  B1:{lbl:'REGGELI',time:'07:00',name:'Protein zabpehely',kcal:640,p:44,c:78,f:12,
+    ing:[['Zabpehely','80g'],['Félzsíros tej','250ml'],['Protein por','30g'],['Banán','1 db'],['Fahéj','csipet']],
+    rec:'1. Zabot tejjel felfőzzük, 3 percig keverjük.\n2. Levesszük a tűzről, protein port belekeverjük.\n3. Banánszeleteket ráteszük, fahéjjal megszórjuk.'},
+  B2:{lbl:'REGGELI',time:'07:00',name:'Tojásos reggeli szendvics',kcal:580,p:36,c:52,f:20,
+    ing:[['Tojás','3 db'],['Teljes kiőrlésű kenyér','2 szelet'],['Paradicsom','1 db'],['Olívaolaj','10ml']],
+    rec:'1. Tojásokat felverjük, sózzuk, borsozzuk.\n2. Olajon közepes lángon lágyra sütjük.\n3. Kenyér mellette pirósítva, friss paradicsom.'},
+  B3:{lbl:'REGGELI',time:'07:00',name:'Túrós zabpalacsinta',kcal:610,p:42,c:62,f:16,
+    ing:[['Túró','200g'],['Tojás','2 db'],['Zabpehely','60g'],['Tejföl','30g']],
+    rec:'1. Összes hozzávalót botmixerrel simára keverjük.\n2. Teflonserpenyőben olajtalan kis palacsintákat sütünk.\n3. Görög joghurttal tálalunk.'},
+  B4:{lbl:'REGGELI',time:'07:00',name:'Joghurttál + müzli',kcal:540,p:30,c:70,f:10,
+    ing:[['Görög joghurt','300g'],['Müzli','80g'],['Áfonya','100g'],['Méz','15ml']],
+    rec:'1. Joghurtot tálba öntjük.\n2. Müzlit és áfonyát rátesszük.\n3. Mézzel megcseppegtjük.'},
+  B5:{lbl:'REGGELI',time:'07:00',name:'Protein smoothie tál',kcal:590,p:40,c:72,f:12,
+    ing:[['Kefir','250ml'],['Protein por','25g'],['Banán','1 db'],['Zabpehely','50g'],['Fagyasztott eper','100g']],
+    rec:'1. Kefirt, protein port és epret turmixolunk.\n2. Smoothie tálba öntjük.\n3. Zabot és banánszeleteket rátesszük.'},
+  B6:{lbl:'REGGELI',time:'07:00',name:'Avokádós tojás kenyérrel',kcal:620,p:28,c:44,f:30,
+    ing:[['Tojás','2 db'],['Avokádó','fél db'],['Teljes kiőrlésű kenyér','2 szelet'],['Citromlé','5ml']],
+    rec:'1. Tojásokat keményre főzzük (8 perc).\n2. Avokádót villával összezúzzuk citromlével, sóval.\n3. Kenyérre kenjük, tojásszeleteket rátesszük.'},
+  B7:{lbl:'REGGELI',time:'07:00',name:'Zabkása gyümölccsel',kcal:570,p:36,c:74,f:12,
+    ing:[['Zabpehely','90g'],['Tej','200ml'],['Görög joghurt','150g'],['Eper','150g'],['Chia mag','10g']],
+    rec:'1. Zabot tejjel 4 percig főzzük.\n2. Tálba öntjük, rátesszük a joghurtot.\n3. Epret felvágjuk, chia magot szórunk rá.'},
+  L1:{lbl:'EBÉD',time:'12:30',name:'Csirkemell rizs + brokkoli',kcal:690,p:55,c:78,f:14,
+    ing:[['Csirkemell','180g'],['Rizs (száraz)','120g'],['Brokkoli','250g'],['Olívaolaj','10ml'],['Fokhagyma','2 gerezd']],
+    rec:'1. Csirkemellet befűszerezzük, serpenyőben 12 perc alatt megsütjük.\n2. Rizst kétszeres sózott vízben 18 percig főzzük.\n3. Brokkolit 5 percig pároljuk olajban, fokhagymával.'},
+  L2:{lbl:'EBÉD',time:'12:30',name:'Bolognese tészta',kcal:700,p:48,c:85,f:16,
+    ing:[['Darált pulyka','180g'],['Tészta','130g'],['Paradicsomszósz','200ml'],['Hagyma','1 db'],['Fokhagyma','2 gerezd']],
+    rec:'1. Hagymán, fokhagymán üvegesre pirítjuk.\n2. Darált pulykát hozzáadjuk, 8 percig sütjük.\n3. Paradicsomszósszal 10 percig rotyogtatjuk.\n4. Főtt tésztával összeforgatjuk.'},
+  L3:{lbl:'EBÉD',time:'12:30',name:'Csirke wrap saláta',kcal:660,p:50,c:65,f:18,
+    ing:[['Csirkemell','160g'],['Teljes kiőrlésű tortilla','2 db'],['Fejes saláta','100g'],['Paradicsom','1 db'],['Joghurtos öntet','50ml']],
+    rec:'1. Csirkemellet csíkokra vágjuk, serpenyőben megsütjük.\n2. Tortillát mikroban 30 mp-ig melegítjük.\n3. Saláta, paradicsom, csirke, öntet — göngyöljük be.'},
+  L4:{lbl:'EBÉD',time:'12:30',name:'Vöröslencsefőzelék',kcal:650,p:36,c:90,f:8,
+    ing:[['Vöröslencse','150g'],['Sárgarépa','2 db'],['Hagyma','1 db'],['Fokhagyma','2 gerezd'],['Kenyér','2 szelet']],
+    rec:'1. Hagymán, fokhagymán olajban dinsztelünk.\n2. Sárgarépa, lencse hozzáad, alaplével felöntjük.\n3. 20 percig főzzük, botmixerrel turmixoljuk.\n4. Kenyérrel tálalunk.'},
+  L5:{lbl:'EBÉD',time:'12:30',name:'Tonhálsaláta + quinoa',kcal:640,p:52,c:68,f:14,
+    ing:[['Tonhal konzerv','280g'],['Quinoa','100g'],['Uborka','1 db'],['Paradicsom','1 db'],['Citromlé','10ml'],['Olívaolaj','10ml']],
+    rec:'1. Quinoát dupla sózott vízben 15 percig főzzük.\n2. Zöldségeket felkockázzuk.\n3. Mindent összekeverünk, citromlével és olajjal locsoljuk.'},
+  L6:{lbl:'EBÉD',time:'12:30',name:'Pulyka + barna rizs saláta',kcal:700,p:56,c:80,f:14,
+    ing:[['Pulykaszelet','200g'],['Barna rizs','120g'],['Fejes saláta','150g'],['Paradicsom','1 db'],['Öntet','40ml']],
+    rec:'1. Pulykaszeletet besózzuk, serpenyőben 2x5 perc alatt megsütjük.\n2. Barna rizst 40 perc alatt főzzük.\n3. Saláta + paradicsom + rizs + pulyka + öntet.'},
+  L7:{lbl:'EBÉD',time:'12:30',name:'Fehérbab leves + pulyka',kcal:720,p:56,c:82,f:14,
+    ing:[['Fehérbab konzerv','400g'],['Pulykaszelet','150g'],['Hagyma','1 db'],['Sárgarépa','2 db'],['Zöldség alaplé','500ml']],
+    rec:'1. Zöldségeket kockázzuk, olajban dinsztelünk.\n2. Alaplével felöntjük, babbal 15 percig főzzük.\n3. Pulykaszeletet külön megsütjük, leves mellé tálalunk.'},
+  S1:{lbl:'UZSONNA',time:'15:30',name:'Túró + alma + dió',kcal:320,p:28,c:28,f:12,
+    ing:[['Túró','200g'],['Alma','1 db'],['Dió','30g']],
+    rec:'1. Túrót tálba tesszük.\n2. Almát felkockázzuk, dióval rátesszük.'},
+  S2:{lbl:'UZSONNA',time:'15:30',name:'Görög joghurt + méz + dió',kcal:290,p:22,c:30,f:12,
+    ing:[['Görög joghurt','250g'],['Méz','15ml'],['Dió','25g']],
+    rec:'1. Joghurtot tálba öntjük.\n2. Mézzel megcseppegtjük, dióval megszórjuk.'},
+  S3:{lbl:'UZSONNA',time:'15:30',name:'Mogyoróvaj + banán',kcal:340,p:14,c:42,f:14,
+    ing:[['Mogyoróvaj (100% természetes)','40g'],['Banán','1 db'],['Rizs galetta','2 db']],
+    rec:'1. Rizs galettára kenjük a mogyoróvajat.\n2. Banánszeleteket rátesszük.'},
+  S4:{lbl:'UZSONNA',time:'15:30',name:'Főtt tojás + zöldségrudak',kcal:250,p:22,c:8,f:14,
+    ing:[['Tojás','2 db'],['Uborka','1 db'],['Sárgarépa','2 db']],
+    rec:'1. Tojásokat keményre főzzük (8 perc), lehűtjük, meghámozzuk.\n2. Zöldségeket rudakra vágjuk.'},
+  D1:{lbl:'VACSORA',time:'19:00',name:'Pulykamell + párolt burgonya',kcal:650,p:52,c:65,f:16,
+    ing:[['Pulykamell','200g'],['Burgonya','250g'],['Paprika','1 db'],['Paradicsom','1 db'],['Olívaolaj','10ml']],
+    rec:'1. Burgonyát meghámozzuk, kockázzuk, 20 percig főzzük.\n2. Pulykát befűszerezzük, serpenyőben megsütjük (2x6 perc).\n3. Zöldségeket frissen tálalunk mellé.'},
+  D2:{lbl:'VACSORA',time:'19:00',name:'Lazac + édesburgonya',kcal:700,p:48,c:62,f:26,
+    ing:[['Lazacfilé','180g'],['Édesburgonya','300g'],['Citromlé','15ml'],['Brokkoli','150g'],['Olívaolaj','10ml']],
+    rec:'1. Édesburgonyát sütőben 200C-on 30 percig sütjük.\n2. Lazacot citromlével meglocsoljuk, 180C-on 12 perc.\n3. Brokkolit pároljuk, mindet együtt tálalunk.'},
+  D3:{lbl:'VACSORA',time:'19:00',name:'Csirkecomb + bulgur',kcal:660,p:52,c:64,f:18,
+    ing:[['Csirkecomb (csont nélkül)','200g'],['Bulgur','120g'],['Brokkoli','200g'],['Fokhagyma','3 gerezd']],
+    rec:'1. Csirkecombokat fokhagymás-rozmarinos olajba forgatjuk.\n2. 200C sütőben 30 percig sütjük.\n3. Bulgurt kétszeres vízben 15 percig főzzük, brokkolit pároljuk mellé.'},
+  D4:{lbl:'VACSORA',time:'19:00',name:'Rakott pulykás zöldség',kcal:620,p:50,c:52,f:18,
+    ing:[['Darált pulyka','200g'],['Cukkini','200g'],['Paradicsom','2 db'],['Hagyma','1 db'],['Tejföl','80g']],
+    rec:'1. Hagymán olajban pirítjuk, pulykát hozzáad, 8 percig sütjük.\n2. Cukkinit és paradicsomot felszeleteljük, rétegezzük.\n3. Tejfölt kanalazzuk rá, 180C-on 20 percig sütjük.'},
+  D5:{lbl:'VACSORA',time:'19:00',name:'Paradicsomos csirke + rizs',kcal:680,p:55,c:76,f:14,
+    ing:[['Csirkemell','200g'],['Rizs','120g'],['Paradicsomszósz','200ml'],['Hagyma','1 db'],['Fokhagyma','2 gerezd']],
+    rec:'1. Csirkemellet felkockázzuk, serpenyőben megsütjük.\n2. Hagymát, fokhagymát hozzáadunk, paradicsomszósszal felöntjük.\n3. 10 percig főzzük, rizzsel tálalunk.'},
+  D6:{lbl:'VACSORA',time:'19:00',name:'Zöldséges omlett + kenyér',kcal:550,p:38,c:44,f:22,
+    ing:[['Tojás','4 db'],['Cukkini','150g'],['Paprika','1 db'],['Reszelt sajt','40g'],['Kenyér','2 szelet']],
+    rec:'1. Zöldségeket felkockázzuk, olajban 4 percig pirítjuk.\n2. Felvert tojást ráöntjük, fedő alatt 5 percig sütjük.\n3. Sajtot reszélünk, kenyérrel tálalunk.'},
+  D7:{lbl:'VACSORA',time:'19:00',name:'Sült lazac + zöldség + burgonya',kcal:690,p:50,c:60,f:26,
+    ing:[['Lazacfilé','180g'],['Burgonya','200g'],['Zöldbab','150g'],['Citromlé','10ml']],
+    rec:'1. Burgonyát főzzük 20 percig.\n2. Lazacot citromlével, kapribogyóval 180C-on 15 percig sütjük.\n3. Zöldbabot pároljuk, mindent együtt tálalunk.'}
+};
+
+const SHAKE={kcal:120,p:24};
+const W14=[1,1,2,2,3,3,4];
+const W58=[5,5,6,6,7,7,4];
+const DNAMES_HU=['Hétfő','Kedd','Szerda','Csütörtök','Péntek','Szombat','Vasárnap'];
+const DNAMES_KEY=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DTYPES=['train','train','rest','train','train','rest','rest'];
+const MONTHS=['jan.','febr.','márc.','ápr.','máj.','jún.','júl.','aug.','szept.','okt.','nov.','dec.'];
+
+const DM={
+  1:{meals:['B1','L1','S1','D1']},
+  2:{meals:['B2','L2','S2','D2']},
+  3:{meals:['B3','L3','S3','D3']},
+  4:{meals:['B4','L4','S4','D4']},
+  5:{meals:['B5','L5','S3','D5']},
+  6:{meals:['B6','L6','S2','D6']},
+  7:{meals:['B7','L7','S1','D7']}
+};
+
+// Build 8 weeks
+const WEEKS=[];
+const START=new Date(2026,5,9); // June 9, 2026
+for(let w=0;w<8;w++){
+  const pat=(w<4)?W14:W58;
+  const days=[];
+  for(let d=0;d<7;d++){
+    const dt=new Date(2026,5,9+w*7+d);
+    days.push({
+      name:DNAMES_HU[d],
+      key:DNAMES_KEY[d],
+      dateStr:dt.getDate()+'. '+MONTHS[dt.getMonth()],
+      type:DTYPES[d],
+      dm:pat[d],
+      isRepeat:(d===1||d===3||d===5)
+    });
+  }
+  const s=new Date(2026,5,9+w*7);
+  const e=new Date(2026,5,9+w*7+6);
+  WEEKS.push({
+    label:(w+1)+'. hét',
+    dates:s.getDate()+'. '+MONTHS[s.getMonth()]+' — '+e.getDate()+'. '+MONTHS[e.getMonth()],
+    days:days,
+    phase:Math.floor(w/2)+1
+  });
+}
+
+// Training data
+const TRAIN={
+  Mon:{focus:'Mell + Tricepsz',tag:'push',
+    wu:'5 perc: 3×10 fekvőtámasz, vállmobilizáció, kárkörzés',
+    ex:[{n:'Fekvenyomás',det:'Rúddal',s:4,r:'8',base:60},{n:'Dőlt pados nyomás',det:'Kézisúlyok',s:3,r:'10',base:22},{n:'Tárogatás kábelen',det:'Keresztezett',s:3,r:'12',base:15},{n:'Francia nyomás',det:'EZ-rúd',s:3,r:'10',base:25},{n:'Tricepsz letolás',det:'Kábel',s:3,r:'12',base:30}],
+    cd:'5 perc nyújtás: mellizom, tricepsz'},
+  Tue:{focus:'Hát + Bicepsz',tag:'pull',
+    wu:'5 perc: vállmobilizáció, kézkörzés, előkészítő húzás',
+    ex:[{n:'Húzódzkodás',det:'Semleges fogás',s:3,r:'max 6–10',base:null},{n:'Evezés rúddal',det:'Hajolt törzs',s:4,r:'8',base:50},{n:'Lat pulldown',det:'Széles fogás',s:3,r:'10',base:55},{n:'Kézisúlyos evezés',det:'Egykaros',s:3,r:'12',base:24},{n:'Bicepsz curl',det:'Rúddal',s:4,r:'10',base:30},{n:'Kalapácsos curl',det:'Kézisúlyok',s:3,r:'12',base:14}],
+    cd:'Nyújtás: széles hát, bicepsz, alkar'},
+  Thu:{focus:'Váll + Has',tag:'shoulders',
+    wu:'5 perc: oldalemelés könnyű súllyal, nyakkörzés',
+    ex:[{n:'Ülő vállnyomás',det:'Kézisúlyok',s:4,r:'8',base:20},{n:'Oldalsó emelés',det:'Kézisúlyok',s:3,r:'12',base:10},{n:'Előemelés',det:'Kézisúlyok',s:3,r:'12',base:10},{n:'Hátsó deltoid gép',det:'Hajolva',s:3,r:'12',base:20},{n:'Plank',det:'Statikus tartás',s:3,r:'45 mp',base:null},{n:'Hasprés',det:'Térd felhúzással',s:3,r:'20',base:null},{n:'Lábemeléses hasprés',det:'Hanyatt fekve',s:3,r:'15',base:null}],
+    cd:'Nyújtás: váll, deréktáj, csípő'},
+  Fri:{focus:'Könnyű Láb + Összefoglaló',tag:'legs',
+    wu:'5 perc: helyben járás, lábkörzés, guggolás súly nélkül',
+    ex:[{n:'Lábnyomás (gép)',det:'Könnyű súly!',s:3,r:'12',base:80},{n:'Lábhajlítás gép',det:'Fekvő',s:3,r:'12',base:30},{n:'Vádliemelés',det:'Állva, kézisúlyokkal',s:4,r:'15',base:20},{n:'Kettlebell swing',det:'Csípőlendítés',s:3,r:'15',base:16},{n:'Pull-through',det:'Kábel, alsó csúszda',s:3,r:'12',base:20}],
+    cd:'10 perc nyújtás: comb, vádli, csípő'},
+  Rest:{focus:'Pihenőnap',tag:'rest',wu:null,ex:[],cd:null}
+};
+const PMULT=[1,1.05,1.10,1.15];
+function trainDay(type,key){
+  if(type==='rest') return TRAIN.Rest;
+  if(key==='Mon') return TRAIN.Mon;
+  if(key==='Tue') return TRAIN.Tue;
+  if(key==='Thu') return TRAIN.Thu;
+  return TRAIN.Fri;
+}
+function fmtKg(base,ph){
+  if(base===null) return '—';
+  return Math.round(base*PMULT[ph-1])+' kg';
+}
+
+// Shopping items by DM type
+const SITEMS={
+  1:[{cat:'Fehérje',items:[['Csirkemell','360g'],['Pulykamell','400g'],['Protein por','60g']]},
+     {cat:'Gabona',items:[['Zabpehely','160g'],['Rizs','240g']]},
+     {cat:'Tejtermék',items:[['Félzsíros tej','500ml'],['Túró','400g']]},
+     {cat:'Zöldség',items:[['Brokkoli','500g'],['Burgonya','500g'],['Paprika','2 db'],['Paradicsom','2 db'],['Fokhagyma','1 fej']]},
+     {cat:'Gyümölcs + egyéb',items:[['Banán','2 db'],['Alma','2 db'],['Dió','60g'],['Olívaolaj','20ml']]}],
+  2:[{cat:'Fehérje',items:[['Darált pulyka','360g'],['Lazacfilé','360g'],['Tojás','6 db']]},
+     {cat:'Gabona',items:[['Tészta','260g'],['Teljes kiőrlésű kenyér','4 szelet']]},
+     {cat:'Tejtermék',items:[['Görög joghurt','500g'],['Méz','20ml'],['Dió','50g']]},
+     {cat:'Zöldség',items:[['Édesburgonya','600g'],['Saláta','200g'],['Paradicsom','2 db'],['Hagyma','2 db']]},
+     {cat:'Egyéb',items:[['Paradicsomszósz','400ml']]}],
+  3:[{cat:'Fehérje',items:[['Csirkemell','320g'],['Csirkecomb (csont nélkül)','400g'],['Tojás','4 db']]},
+     {cat:'Gabona',items:[['Zabpehely','120g'],['Bulgur','240g'],['Tortilla','2 db']]},
+     {cat:'Tejtermék',items:[['Túró','400g'],['Tejföl','60g']]},
+     {cat:'Zöldség',items:[['Brokkoli','400g'],['Fejes saláta','200g'],['Paradicsom','2 db']]},
+     {cat:'Gyümölcs + egyéb',items:[['Banán','2 db'],['Mogyoróvaj','80g'],['Joghurtos öntet','100ml']]}],
+  4:[{cat:'Fehérje',items:[['Darált pulyka','200g'],['Tojás','2 db']]},
+     {cat:'Gabona',items:[['Müzli','80g'],['Kenyér','2 szelet'],['Vöröslencse','150g']]},
+     {cat:'Tejtermék',items:[['Görög joghurt','200g'],['Tejföl','80g']]},
+     {cat:'Zöldség',items:[['Cukkini','200g'],['Sárgarépa','2 db'],['Hagyma','1 db']]},
+     {cat:'Gyümölcs + egyéb',items:[['Áfonya','100g'],['Uborka','1 db'],['Méz','15ml']]}],
+  5:[{cat:'Fehérje',items:[['Csirkemell','400g'],['Tonhal konzerv','4 db'],['Protein por','50g']]},
+     {cat:'Gabona',items:[['Quinoa','200g'],['Zabkeksz','120g']]},
+     {cat:'Tejtermék',items:[['Kefir','500ml'],['Túró','300g']]},
+     {cat:'Zöldség',items:[['Mix saláta','300g'],['Uborka','2 db'],['Paradicsom','2 db']]},
+     {cat:'Gyümölcs + egyéb',items:[['Banán','2 db'],['Mandula','50g'],['Fagyasztott eper','200g']]}],
+  6:[{cat:'Fehérje',items:[['Pulykaszelet','400g'],['Tojás','10 db']]},
+     {cat:'Gabona',items:[['Barna rizs','240g'],['Teljes kiőrlésű kenyér','4 szelet'],['Müzli','120g']]},
+     {cat:'Tejtermék',items:[['Kefir','400ml'],['Reszelt sajt','80g']]},
+     {cat:'Zöldség',items:[['Fejes saláta','200g'],['Paprika','2 db'],['Cukkini','300g'],['Avokádó','2 db']]},
+     {cat:'Egyéb',items:[['Olívaolaj','20ml']]}],
+  7:[{cat:'Fehérje',items:[['Lazacfilé','360g'],['Pulykaszelet','300g']]},
+     {cat:'Gabona',items:[['Zabpehely','180g'],['Burgonya','400g']]},
+     {cat:'Tejtermék',items:[['Görög joghurt','300g']]},
+     {cat:'Zöldség',items:[['Zöldbab','300g'],['Paradicsom','4 db'],['Hagyma','2 db']]},
+     {cat:'Gyümölcs + egyéb',items:[['Eper','300g'],['Dió','60g'],['Sajt','80g']]}]
+};
+
+const SUPPS=[
+  {icon:'fa-jar',color:'var(--gold)',name:'Scitec Whey Protein',when:'Edzés után 30 percen belül',
+   desc:'30g fehérjepor 250ml vízzel vagy tejjel. Edzésmentes napokon is fogyasztható reggel vagy uzsonnaként. A leucin-tartalom optimálisan stimulálja az izomnövekedést.'},
+  {icon:'fa-tablets',color:'var(--cyan)',name:'Magnézium (Mg) 375mg',when:'Lefekvés előtt 30–60 perccel',
+   desc:'Magnézium-biszglicinát forma a legjobb felszívódáshoz. Segíti az izomrelaxációt, csökkenti az esti görcsöket, javítja az alvásminőséget.'},
+  {icon:'fa-capsules',color:'var(--gold2)',name:'Kalcium (Ca) 500mg',when:'Reggel étkezés közben',
+   desc:'Étkezéssel együtt szedendő. NEM szedendő magnéziummal egy időben — egymás felszívódását zavarják.'},
+  {icon:'fa-fire',color:'var(--green)',name:'Kreatin (opcionális)',when:'Bármikor, naponta 5g',
+   desc:'Kreatin-monohidrát 5g/nap, minden nap. Töltési fázis nem szükséges. 3–4 hét után teljes hatás: erőnövekedés, rövidebb regeneráció.'}
+];
+
+// ---- RENDER DIET ----
+let cDW=0;
+function buildDietTabs(){
+  const el=document.getElementById('diet-tabs');
+  el.innerHTML='';
+  WEEKS.forEach((w,i)=>{
+    const btn=document.createElement('button');
+    btn.className='wtab'+(i===0?' active':'');
+    btn.textContent=w.label;
+    btn.addEventListener('click',()=>switchDiet(i));
+    el.appendChild(btn);
+  });
+}
+function switchDiet(i){
+  cDW=i;
+  document.querySelectorAll('#diet-tabs .wtab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  renderDietContent();
+}
+function renderDietContent(){
+  const w=WEEKS[cDW];
+  const pLabels=['Alap terhelés (100%)','Progresszív +5%','Progresszív +10%','Progresszív +15%'];
+  let h=`<div class="phase-info"><i class="fa fa-star" style="margin-right:6px"></i>${w.phase}. fázis &bull; ${pLabels[w.phase-1]} &bull; <span style="opacity:.8">${w.dates}</span></div>`;
+  w.days.forEach(day=>{
+    const dm=DM[day.dm];
+    let dk=0,dp=0;
+    dm.meals.forEach(mid=>{dk+=M[mid].kcal;dp+=M[mid].p;});
+    if(day.type==='train'){dk+=SHAKE.kcal;dp+=SHAKE.p;}
+    const repBadge=day.isRepeat?`<span style="font-size:10px;color:var(--text2);margin-left:6px"><i class="fa fa-rotate"></i> ismétlő</span>`:'';
+    h+=`<div class="dcard">
+<div class="dhdr" onclick="togCard(this,'dcontent')">
+  <div><div class="dname">${day.name}, ${day.dateStr}${repBadge}</div></div>
+  <div class="dright">
+    <span class="dbadge ${day.type==='train'?'edzes':'piheno'}">${day.type==='train'?'EDZÉS':'PIHENŐ'}</span>
+    <span class="dkcal">${dk} kcal</span>
+    <span class="dprot">P:${dp}g</span>
+    <i class="fa fa-chevron-down dcaret"></i>
+  </div>
+</div>
+<div class="dcontent">`;
+    dm.meals.forEach(mid=>{
+      const me=M[mid];
+      h+=`<div class="mitem">
+<div class="mhdr" onclick="togCard(this,'mdetail')">
+  <div class="mleft"><span class="mlabel">${me.lbl} &bull; ${me.time}</span><p>${me.name}</p></div>
+  <div class="mright"><div class="mkcal">${me.kcal} kcal</div><div class="mmacro">P:${me.p}g &nbsp;Sz:${me.c}g &nbsp;Z:${me.f}g</div></div>
+</div>
+<div class="mdetail">
+<div class="ming-list">${me.ing.map(([n,a])=>`<span class="ming">${n} — ${a}</span>`).join('')}</div>
+<div class="mrec">${me.rec}</div>
+</div></div>`;
+    });
+    if(day.type==='train'){
+      h+=`<div class="mitem shake-item"><div class="mhdr"><div class="mleft"><span class="mlabel">EDZÉS UTÁN</span><p>Protein shake</p></div><div class="mright"><div class="mkcal">${SHAKE.kcal} kcal</div><div class="mmacro">P:${SHAKE.p}g</div></div></div></div>`;
+    }
+    h+=`</div></div>`;
+  });
+  document.getElementById('diet-content').innerHTML=h;
+}
+
+// ---- RENDER TRAINING ----
+let cTW=0;
+function buildTrainTabs(){
+  const el=document.getElementById('train-tabs');
+  el.innerHTML='';
+  WEEKS.forEach((w,i)=>{
+    const btn=document.createElement('button');
+    btn.className='wtab'+(i===0?' active':'');
+    btn.textContent=w.label;
+    btn.addEventListener('click',()=>switchTrain(i));
+    el.appendChild(btn);
+  });
+}
+function switchTrain(i){
+  cTW=i;
+  document.querySelectorAll('#train-tabs .wtab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  renderTrainContent();
+}
+function renderTrainContent(){
+  const w=WEEKS[cTW];
+  const pct=['100% (alap)','105% (+5%)','110% (+10%)','115% (+15%)'][w.phase-1];
+  let h=`<div class="phase-info"><i class="fa fa-dumbbell" style="margin-right:6px"></i>${w.phase}. fázis &bull; Súlyok: <strong>${pct}</strong> &bull; <span style="opacity:.8">${w.dates}</span></div>`;
+  w.days.forEach(day=>{
+    const td=trainDay(day.type,day.key);
+    h+=`<div class="tcard">
+<div class="thdr" onclick="togCard(this,'tcontent')">
+  <div><div class="tfocus">${day.name}</div><div style="font-size:11px;color:var(--text2);margin-top:2px">${day.dateStr}</div></div>
+  <div style="display:flex;align-items:center;gap:8px"><span class="ttag ${td.tag}">${td.focus}</span><i class="fa fa-chevron-down dcaret"></i></div>
+</div>
+<div class="tcontent">`;
+    if(day.type==='rest'){
+      h+=`<div class="rest-day"><i class="fa fa-bed"></i><p>Pihenőnap — regeneráció, aktív pihenés, nyújtás</p></div>`;
+    } else {
+      h+=`<div class="twu"><i class="fa fa-fire" style="color:var(--gold2);margin-right:6px"></i><strong>Bemelegítés:</strong> ${td.wu}</div>`;
+      td.ex.forEach(ex=>{
+        h+=`<div class="exrow"><div><div class="exname">${ex.n}</div><div class="exdet">${ex.det} &bull; ${ex.s}×${ex.r}</div></div><div class="exkg">${fmtKg(ex.base,w.phase)}</div></div>`;
+      });
+      h+=`<div class="tcd"><i class="fa fa-snowflake" style="color:var(--cyan);margin-right:6px"></i><strong>Levezetés:</strong> ${td.cd}</div>`;
+    }
+    h+=`</div></div>`;
+  });
+  document.getElementById('train-content').innerHTML=h;
+}
+
+// ---- RENDER SHOPPING ----
+let cSW=0;
+function buildShopTabs(){
+  const el=document.getElementById('shop-tabs');
+  el.innerHTML='';
+  WEEKS.forEach((w,i)=>{
+    const btn=document.createElement('button');
+    btn.className='wtab'+(i===0?' active':'');
+    btn.textContent=w.label;
+    btn.addEventListener('click',()=>switchShop(i));
+    el.appendChild(btn);
+  });
+}
+function switchShop(i){
+  cSW=i;
+  document.querySelectorAll('#shop-tabs .wtab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  renderShopContent();
+}
+function renderShopContent(){
+  const w=WEEKS[cSW];
+  const pat=(cSW<4)?W14:W58;
+  const seen={};
+  const trips=[];
+  [0,2,4,6].forEach(di=>{
+    const dm=pat[di];
+    if(!seen[dm]){
+      seen[dm]=true;
+      const label=(di<6)?w.days[di].name+', '+w.days[di].dateStr+' + '+w.days[di+1].name+', '+w.days[di+1].dateStr:w.days[6].name+', '+w.days[6].dateStr;
+      trips.push({dm,label});
+    }
+  });
+  let h=`<div class="shop-note"><i class="fa fa-lightbulb" style="color:var(--gold);margin-right:6px"></i>A 2-napos ismétlő menü miatt elég kétnaponként bevásárolni. Pipáld ki amit megvettél — az alkalmazás megjegyzi! Az alapfűszerek (só, bors, olaj) nincsenek listázva.</div>`;
+  trips.forEach((trip,ti)=>{
+    const cats=SITEMS[trip.dm];
+    h+=`<div class="shop-trip"><div class="strip-hdr" onclick="togCard(this,'strip-body')">
+<div><div class="strip-title">Bevásárlás: ${ti+1}. kör</div><div class="strip-sub">${trip.label}</div></div>
+<i class="fa fa-chevron-down dcaret"></i></div>
+<div class="strip-body">`;
+    cats.forEach(cat=>{
+      h+=`<div class="shop-cat">${cat.cat}</div>`;
+      cat.items.forEach(([name,qty],ii)=>{
+        const key=`sh_w${cSW+1}_dm${trip.dm}_t${ti}_i${ii}`;
+        const chk=localStorage.getItem(key)==='1';
+        h+=`<div class="shop-item${chk?' done':''}" id="si_${key}">
+<input type="checkbox" id="cb_${key}"${chk?' checked':''} onchange="chkShop('${key}',this)">
+<label for="cb_${key}">${name} — <strong>${qty}</strong></label></div>`;
+      });
+    });
+    h+=`</div></div>`;
+  });
+  document.getElementById('shop-content').innerHTML=h;
+}
+function chkShop(key,cb){
+  localStorage.setItem(key,cb.checked?'1':'0');
+  const row=document.getElementById('si_'+key);
+  if(row) row.classList.toggle('done',cb.checked);
+}
+
+// ---- LOG ----
+let wChart=null;
+function renderLog(){
+  const wLog=JSON.parse(localStorage.getItem('bf26_weights')||'[]');
+  const prLog=JSON.parse(localStorage.getItem('bf26_prs')||'[]');
+  const latestW=wLog.length?wLog[wLog.length-1].w:null;
+  const startW=wLog.length?wLog[0].w:null;
+  const diff=latestW&&startW?((latestW-startW).toFixed(1)):null;
+  const diffColor=(diff&&parseFloat(diff)<0)?'var(--green)':'var(--coral)';
+  let h=`<div class="data-note"><i class="fa fa-database" style="color:var(--cyan);margin-right:6px"></i>Az adatok a <strong>böngésző localStorage</strong>-ban tárolódnak. Kulcsok: <code>bf26_weights</code>, <code>bf26_prs</code>, <code>sh_w*_dm*_t*_i*</code>. Megmaradnak az alkalmazás bezárása után is, de böngésző-cache törléskor elvesznek.</div>
+<div class="log-grid">
+<div class="log-card"><h3>Aktuális súly</h3><div class="log-stat">${latestW?latestW+' kg':'—'}</div><div class="log-sub">${wLog.length} mérés rögzítve</div></div>
+<div class="log-card"><h3>Változás</h3><div class="log-stat" style="${diff?'background:'+diffColor+';-webkit-background-clip:text;-webkit-text-fill-color:transparent':''}">
+${diff?(parseFloat(diff)>0?'+':'')+diff+' kg':'—'}</div><div class="log-sub">${wLog.length>1?'kezdettől':'nincs elég adat'}</div></div>
+</div>
+<div class="chart-wrap">
+<h3><i class="fa fa-weight-scale" style="color:var(--gold)"></i>Testsúly grafikon</h3>
+<canvas id="wChart" style="max-height:200px"></canvas>
+<div style="margin-top:14px">
+<div class="inp-row">
+<input class="inp" type="number" id="w-inp" placeholder="Súly kg-ban (pl. 93.5)" step="0.1" min="40" max="200">
+<button class="btn" onclick="addWeight()">+ Rögzít</button>
+</div>
+${wLog.length?`<div style="font-size:11px;color:var(--text2)">${wLog.slice(-5).reverse().map(e=>`<span style="color:var(--text)">${e.d}: ${e.w} kg</span>`).join(' &bull; ')}</div>`:'<div style="font-size:11px;color:var(--text2)">Még nincs mérés rögzítve.</div>'}
+</div>
+</div>
+<div class="chart-wrap">
+<h3><i class="fa fa-trophy" style="color:var(--gold)"></i>Erőnléti rekordok (PR)</h3>
+<div class="pr-form">
+<select class="pr-sel" id="pr-ex"><option value="">— Válassz gyakorlatot —</option>
+<option>Fekvenyomás</option><option>Evezés rúddal</option><option>Ülő vállnyomás</option>
+<option>Lábnyomás</option><option>Bicepsz curl</option><option>Francia nyomás</option>
+<option>Lat pulldown</option><option>Húzódzkodás (+ kg)</option></select>
+<div class="inp-row">
+<input class="inp" type="number" id="pr-kg" placeholder="Súly (kg)" step="0.5" min="1">
+<input class="inp" type="number" id="pr-reps" placeholder="Isml." min="1" max="50" style="max-width:100px">
+<button class="btn" onclick="addPR()">+</button>
+</div>
+</div>
+${prLog.length?`<table class="pr-table"><thead><tr><th>Gyakorlat</th><th>Súly</th><th>Ism.</th><th>Dátum</th></tr></thead><tbody>
+${prLog.slice(-15).reverse().map(p=>`<tr><td>${p.ex}</td><td class="pr-kg">${p.kg} kg</td><td style="color:var(--text2)">${p.reps}</td><td style="color:var(--text2);font-size:11px">${p.d}</td></tr>`).join('')}
+</tbody></table>`:'<div class="empty-state"><i class="fa fa-trophy" style="font-size:24px;display:block;margin-bottom:8px;color:var(--border)"></i>Még nincs rögzített PR</div>'}
+</div>`;
+  document.getElementById('log-content').innerHTML=h;
+  if(wChart){wChart.destroy();wChart=null;}
+  const ctx=document.getElementById('wChart');
+  if(ctx&&wLog.length>0){
+    wChart=new Chart(ctx,{type:'line',data:{
+      labels:wLog.map(e=>e.d),
+      datasets:[{label:'Testsúly (kg)',data:wLog.map(e=>e.w),
+        borderColor:'#F5C518',backgroundColor:'rgba(245,197,24,.08)',
+        tension:.4,pointBackgroundColor:'#FF9800',pointRadius:5,fill:true,
+        borderWidth:2}]
+    },options:{responsive:true,plugins:{legend:{labels:{color:'#E8F0FE',font:{size:12}}}},
+      scales:{x:{ticks:{color:'#3D6080',maxTicksLimit:6},grid:{color:'rgba(15,32,56,.8)'}},
+              y:{ticks:{color:'#3D6080'},grid:{color:'rgba(15,32,56,.8)'},beginAtZero:false}}}});
+  }
+}
+function today(){const d=new Date();return d.getFullYear()+'.'+(d.getMonth()+1).toString().padStart(2,'0')+'.'+d.getDate().toString().padStart(2,'0');}
+function addWeight(){
+  const v=parseFloat(document.getElementById('w-inp').value);
+  if(!v||v<40||v>200){alert('40–200 kg közé ess!');return;}
+  const log=JSON.parse(localStorage.getItem('bf26_weights')||'[]');
+  log.push({d:today(),w:v});
+  localStorage.setItem('bf26_weights',JSON.stringify(log));
+  renderLog();
+}
+function addPR(){
+  const ex=document.getElementById('pr-ex').value;
+  const kg=parseFloat(document.getElementById('pr-kg').value);
+  const reps=parseInt(document.getElementById('pr-reps').value);
+  if(!ex||!kg||!reps){alert('Minden mezőt tölts ki!');return;}
+  const log=JSON.parse(localStorage.getItem('bf26_prs')||'[]');
+  log.push({ex,kg,reps,d:today()});
+  localStorage.setItem('bf26_prs',JSON.stringify(log));
+  renderLog();
+}
+
+// ---- SUPPLEMENTS ----
+function renderSupps(){
+  document.getElementById('supp-content').innerHTML=SUPPS.map(s=>`
+<div class="supp-card">
+<i class="fa ${s.icon} supp-icon" style="color:${s.color}"></i>
+<div class="supp-name">${s.name}</div>
+<div class="supp-when">${s.when}</div>
+<div class="supp-desc">${s.desc}</div>
+</div>`).join('');
+}
+
+// ---- TOGGLE HELPER ----
+function togCard(hdr,contentClass){
+  const body=hdr.parentElement.querySelector('.'+contentClass);
+  if(!body) return;
+  const open=body.style.display==='block';
+  body.style.display=open?'none':'block';
+  const caret=hdr.querySelector('.dcaret');
+  if(caret) caret.style.transform=open?'':'rotate(180deg)';
+}
+
+// ---- INIT ----
+buildDietTabs();
+renderDietContent();
+buildTrainTabs();
+renderTrainContent();
+buildShopTabs();
+renderShopContent();
+renderSupps();
+</script>
+</body>
+</html>
