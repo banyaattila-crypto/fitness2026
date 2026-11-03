@@ -50,7 +50,7 @@ Az `index.html`-ből a 210 soros adatblokk helyére 3 soros shim került (`const
 - A bevásárlólista kategóriái külön „Gyümölcs" és „Egyéb" sorra váltak (korábban összevont „Gyümölcs + egyéb").
 - A bevásárlólista tételsorrendje étel-sorrendet követ, nem ABC-t.
 - A shop-note most accurately states: "A bevásárlólista tartalmazza az alapfűszereket (só, bors, olaj)".
-- Régebbi, F0-on kívüli tételek: `user-scalable=no`, `--text2` kontraszt, inline `onclick` + `togCard`, hetenkénti checkbox-kulcsok, nincs export/import, nincs PWA, hardcode-olt 96 kg / 173 cm.
+- Régebbi, F0-on kívüli tételek: `user-scalable=no`, `--text2` kontraszt, inline `onclick` + `togCard`, hetenkénti checkbox-kulcsok, nincs export/import, van PWA, hardcode-olt 96 kg / 173 cm.
 
 ## Verziózás
 
@@ -65,6 +65,16 @@ npm test                                 # 50 teszt
 ```
 
 A `tests/version.test.ts` őrzi, hogy a `data.js` és a `package.json` verziója egyezzen (azaz ne maradjon el a build), és hogy az `index.html` valóban megjelenítse.
+
+## PWA (Progressive Web App)
+
+A verzió `v0.2.1`-hez hozzáadtunk:
+
+- `manifest.json` – app neve, rövid neve, leírás, start_url, display mód, témaszín és ikon referencia.
+- `service-worker.js` – basic cache-first strategia a legfontosabb URL-ekkel (/, index.html, data.js, manifest.json) az esbuild-build során.
+- `index.html`-ben regisztrált Service Worker `
+  
+A GitHub Pagesen a `localhost` alatt a SW regisztrálása korlátozódik, de a publikus URL `https://banyaattila-crypto.github.io/fitness2026/` alatt a böngésző alapból engedélyezi, és a cache mind kiszolgálódik.
 
 ## Következő lépés
 
