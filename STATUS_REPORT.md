@@ -1,7 +1,7 @@
 # fitness2026 – státuszjelentés
 
 **Dátum:** 2026. november 3.
-**Verzió:** F0 kész (`31e8b95`)
+**Verzió:** v0.2.0 (F0 kész)
 **Élő oldal:** https://banyaattila-crypto.github.io/fitness2026/
 
 ## Összefoglaló
@@ -13,6 +13,7 @@ A 8 hetes étrend- és edzésterv app továbbra is build nélküli statikus olda
 | Terület | Fájl | Tartalom |
 | --- | --- | --- |
 | Típusok | `src/types.ts` | Food, Meal, Menu, PlanWeek, Exercise, TrainingDay, Supplement, ShoppingCategory |
+| Verzió | `src/version.ts` | `VERSION` – a build injektálja a `package.json`-ból |
 | Tartalom | `src/content/foods.ts` | étel-katalógus bolti kiszereléssel (`purchase`) és `pantry` jelöléssel |
 | | `src/content/meals.ts` | 25 étel strukturált hozzávalókkal + recept |
 | | `src/content/menus.ts` | 7 napi menü, SHAKE konstans |
@@ -37,10 +38,10 @@ Az `index.html`-ből a 210 soros adatblokk helyére 3 soros shim került (`const
 
 ## Ellenőrzések
 
-- `npm test` → **46/46 zöld** (bevásárlólista, táplálkozás, naptár, tartalom-integritás)
+- `npm test` → **50/50 zöld** (bevásárlólista, táplálkozás, naptár, tartalom-integritás, verzió)
 - `npm run typecheck` → hiba nélkül (strict)
 - `npm run build` után a munkakönyvtár tiszta → a commitolt `data.js` a forrásból reprodukálható
-- jsdom-os DOM-füstteszt: 7 étkezési kártya, 7 edzéskártya, 63 bevásárlólista-tétel, 4 kiegészítő, nulla JS hiba
+- jsdom-os DOM-füstteszt: 7 étkezési kártya, 7 edzéskártya, 63 bevásárlólista-tétel, 4 kiegészítő, a fejlécben `v0.2.0`, nulla JS hiba
 - **Korlát:** a headless Chromium ebben a környezetben nem indult el, ezért valódi böngészős screenshot nem készült.
 
 ## Ismert adósság
@@ -51,6 +52,20 @@ Az `index.html`-ből a 210 soros adatblokk helyére 3 soros shim került (`const
 - A lista feletti szöveg továbbra is azt írja, hogy az olaj nincs listázva — pontatlan.
 - Régebbi, F0-on kívüli tételek: `user-scalable=no`, `--text2` kontraszt, inline `onclick` + `togCard`, hetenkénti checkbox-kulcsok, nincs export/import, nincs PWA, hardcode-olt 96 kg / 173 cm.
 
+## Verziózás
+
+A verziószámnak egyetlen forrása van: a `package.json` `version` mezője. A `npm run build` ezt injektálja a bundle-be (`__APP_VERSION__` → `BF.VERSION`), az `index.html` pedig ebből írja ki a fejlécet és a dokumentum címét — nincs több kézzel írt „v2". A build el is bukik, ha a verzió nem semver alakú, vagy ha nem került bele a `data.js`-be.
+
+Új verzió kiadása:
+
+```bash
+npm version minor --no-git-tag-version   # patch / minor / major
+npm run build                            # data.js újragenerálása
+npm test                                 # 50 teszt
+```
+
+A `tests/version.test.ts` őrzi, hogy a `data.js` és a `package.json` verziója egyezzen (azaz ne maradjon el a build), és hogy az `index.html` valóban megjelenítse.
+
 ## Következő lépés
 
 **F1:** az „aktuális hét" automatikus kiválasztása a mai dátum alapján (most a hét manuálisan lapozható).
@@ -59,6 +74,6 @@ Az `index.html`-ből a 210 soros adatblokk helyére 3 soros shim került (`const
 
 ```bash
 npm run build      # src/ → data.js
-npm test           # 46 teszt
+npm test           # 50 teszt
 npm run typecheck  # tsc --noEmit
 ```

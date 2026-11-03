@@ -1,4 +1,5 @@
 // GENERÁLT FÁJL — ne szerkeszd kézzel. Forrás: src/, build: npm run build
+// Verzió: 0.2.0
 "use strict";
 var BF = (() => {
   var __defProp = Object.defineProperty;
@@ -26,6 +27,7 @@ var BF = (() => {
     M: () => M,
     SHAKE: () => SHAKE,
     SUPPS: () => SUPPS,
+    VERSION: () => VERSION,
     W14: () => MENU_PATTERN_14,
     W58: () => MENU_PATTERN_58,
     WEEKS: () => WEEKS,
@@ -817,6 +819,9 @@ var BF = (() => {
     return order.filter((cat) => byCategory.has(cat)).map((cat) => ({ cat, items: byCategory.get(cat) }));
   }
 
+  // src/version.ts
+  var VERSION = true ? "0.2.0" : "0.0.0-dev";
+
   // src/bridge.ts
   var M = {};
   for (const [id, meal] of Object.entries(MEALS)) {
@@ -848,7 +853,8 @@ var BF = (() => {
     buildShopList: buildShoppingList,
     dayTotals,
     menuTotals,
-    formatAmount
+    formatAmount,
+    VERSION
   };
   return __toCommonJS(bridge_exports);
 })();

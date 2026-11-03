@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Body Fitness 2026 v2</title>
+<title>Body Fitness 2026</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
@@ -163,8 +163,8 @@ body{padding-bottom:72px}
 
 <div class="hdr">
   <div class="hdr-text">
-    <h1><i class="fa fa-bolt" style="margin-right:6px"></i>BODY FITNESS 2026 v2</h1>
-    <p>8 h&#233;t &bull; Body Recomp &bull; 2026. j&#250;n. 9 &ndash; aug. 3. &bull; 96 kg &bull; 173 cm</p>
+    <h1><i class="fa fa-bolt" style="margin-right:6px"></i>BODY FITNESS 2026</h1>
+    <p>8 h&#233;t &bull; Body Recomp &bull; 2026. j&#250;n. 9 &ndash; aug. 3. &bull; 96 kg &bull; 173 cm &bull; <span id="app-ver"></span></p>
   </div>
   <svg viewBox="0 0 80 80" width="46" height="46" xmlns="http://www.w3.org/2000/svg">
     <polygon points="10,34 40,6 70,34 62,34 40,18 18,34" fill="#F5C518"/>
@@ -226,7 +226,11 @@ document.querySelectorAll('.nbtn').forEach(btn=>{
 
 // ---- DATA (generalva: data.js) ----
 // Az adatokat a scripts/build-data.mjs allitja elo a src/ modulokbol.
-const {M, DM, SHAKE, WEEKS, SUPPS, W14, W58, trainDay, fmtKg, buildShopList, dayTotals} = window.BF;
+const {M, DM, SHAKE, WEEKS, SUPPS, W14, W58, trainDay, fmtKg, buildShopList, dayTotals, VERSION} = window.BF;
+
+// ---- VERZIÓ (forrás: package.json, a build injektálja a data.js-be) ----
+document.title='Body Fitness 2026 v'+VERSION;
+document.getElementById('app-ver').textContent='v'+VERSION;
 
 // ---- RENDER DIET ----
 let cDW=0;

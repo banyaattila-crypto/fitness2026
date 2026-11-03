@@ -15,6 +15,7 @@ import { WEEKS } from './domain/progression.js';
 import { trainDay, fmtKg } from './domain/training.js';
 import { dayTotals, menuTotals } from './domain/nutrition.js';
 import { formatAmount, buildShoppingList } from './domain/shopping.js';
+import { VERSION } from './version.js';
 
 interface LegacyMeal {
   lbl: string;
@@ -60,6 +61,7 @@ export {
   dayTotals,
   menuTotals,
   formatAmount,
+  VERSION,
 };
 
 declare global {
@@ -81,4 +83,5 @@ globalThis.BF = {
   dayTotals,
   menuTotals,
   formatAmount,
+  VERSION,
 };

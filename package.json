@@ -1,6 +1,6 @@
 {
   "name": "fitness2026",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "Body Fitness 2026 - etrend- es edzesterv app (F0: adatok es szamitasok kulon modulokban)",
@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@types/node": "^26.6.6",
     "esbuild": "^0.28.2",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"
