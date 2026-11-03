@@ -50,7 +50,7 @@ Az `index.html`-ből a 210 soros adatblokk helyére 3 soros shim került (`const
 - A bevásárlólista kategóriái külön „Gyümölcs" és „Egyéb" sorra váltak (korábban összevont „Gyümölcs + egyéb").
 - A bevásárlólista tételsorrendje étel-sorrendet követ, nem ABC-t.
 - A shop-note most accurately states: "A bevásárlólista tartalmazza az alapfűszereket (só, bors, olaj)".
-- Régebbi, F0-on kívüli tételek: `user-scalable=no`, `--text2` kontraszt, inline `onclick` + `togCard`, hetenkénti checkbox-kulcsok, nincs export/import, van PWA, hardcode-olt 96 kg / 173 cm.
+- Régebbi, F0-on kívüli tételek: `user-scalable=no`, `--text2` kontraszt, inline `onclick` + `togCard`, hetenkénti checkbox-kulcsok, van export/import funkció, van PWA, Súly és magasság konfigurálható a localStorage-bol (alapertelmezett: 96 kg / 173 cm).
 
 ## Verziózás
 

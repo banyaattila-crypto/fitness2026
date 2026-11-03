@@ -413,6 +413,7 @@ ${diff?(parseFloat(diff)>0?'+':'')+diff+' kg':'—'}</div><div class="log-sub">$
 <div style="margin-top:14px">
 <div class="inp-row">
 <input class="inp" type="number" id="w-inp" placeholder="Súly kg-ban (pl. 93.5)" step="0.1" min="40" max="200">
+<input class="inp" type="number" id="h-inp" placeholder="Magasság cm-ben (pl. 175)" step="1" min="150" max="210">
 <button class="btn" onclick="addWeight()">+ Rögzít</button>
 </div>
 ${wLog.length?`<div style="font-size:11px;color:var(--text2)">${wLog.slice(-5).reverse().map(e=>`<span style="color:var(--text)">${e.d}: ${e.w} kg</span>`).join(' &bull; ')}</div>`:'<div style="font-size:11px;color:var(--text2)">Még nincs mérés rögzítve.</div>'}
@@ -529,6 +530,59 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+</script>
+<script>
+function initUserStats() {
+  const storedW = localStorage.getItem('bf26_weight');
+  const storedH = localStorage.getItem('bf26_height');
+  const wEl = document.getElementById('w-inp');
+  const hEl = document.getElementById('h-inp');
+  const wDisp = document.getElementById('w-display');
+  const hDisp = document.getElementById('h-display');
+  const defaultW = 96;
+  const defaultH = 173;
+  if (storedW) { const v=parseFloat(storedW); if(v>=40&&v<=200){ wEl.value=v; wDisp.textContent=v; } }
+  else { localStorage.setItem('bf26_weight',String(defaultW)); }
+  if (storedH) { const v=parseInt(storedH); if(v>=150&&v<=210){ hEl.value=v; hDisp.textContent=v; } }
+  else { localStorage.setItem('bf26_height',String(defaultH)); }
+}
+function exportData() {
+  const data = {
+    weights: JSON.parse(localStorage.getItem('bf26_weights')||'[]'),
+    height: localStorage.getItem('bf26_height') || '173',
+    version: '0.2.1'
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "fitness2026-data.json"; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.weights) localStorage.setItem('bf26_weights', JSON.stringify(data.weights));
+      if (data.height) localStorage.setItem('bf26_height', String(data.height));
+      initUserStats();
+      alert("Adatok sikeresen importálva!");
+    } catch (err) {
+      alert("Érvénytelen fájlformátum!");
+    }
+  };
+  reader.readAsText(file);
+}
+
+<!-- User stats controls -->
+<div style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+  <button class="btn" onclick="exportData()">Exportálás</button>
+  <input type="file" style="display:none" accept=".json" id="import-file">
+  <button class="btn" onclick="document.getElementById('import-file').click()">Importálás</button>
+</div>
 </script>
 </body>
 </html>
