@@ -65,3 +65,17 @@ export function buildWeeks(weekCount: number = WEEK_COUNT): PlanWeek[] {
 }
 
 export const WEEKS: readonly PlanWeek[] = buildWeeks();
+
+/** Currently active week index (0–7), based on the current date.
+ * Ha a START napjáénál ezelül van, 0-t ad. Ha a terv túl akkoriban végződött, 7-t ad.
+ */
+export function currentWeekIndex(): number {
+  const now = new Date();
+  const diffMs = now.getTime() - START.getTime();
+  const diffDays = diffMs / (1000 * 60 * 60 * 24);
+  let week = Math.floor(diffDays / 7);
+  if (week < 0) week = 0;
+  if (week > WEEK_COUNT - 1) week = WEEK_COUNT - 1;
+  return week;
+}
+
