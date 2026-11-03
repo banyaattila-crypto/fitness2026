@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Body Fitness 2026</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="manifest" href="manifest.json">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
 :root{
@@ -515,6 +516,19 @@ renderTrainContent();
 buildShopTabs();
 renderShopContent();
 renderSupps();
+
+
+<!-- Register service worker for PWA -->
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(registration => {
+      console.log('SW registered: ', registration);
+    })
+    .catch(err => {
+      console.log('SW registration failed: ', err);
+    });
+}
+
 </script>
 </body>
 </html>

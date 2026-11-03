@@ -1,0 +1,17 @@
+{
+  "name": "Body Fitness 2026",
+  "short_name": "Fit 2026",
+  "description": "8 hétes étrend- és edzésterv",
+  "start_url": "./index.html?source=webapp",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#020810",
+  "theme_color": "#F5C518",
+  "icons": [
+    {
+      "src": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
+      "sizes": "any",
+      "type": "text/css"
+    }
+  ]
+}

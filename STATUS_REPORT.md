@@ -49,7 +49,7 @@ Az `index.html`-ből a 210 soros adatblokk helyére 3 soros shim került (`const
 - A kimondott kcal és a makrókból számolt érték nem mindenhol egyezik; legnagyobb eltérés L4 −11,4%, S2 +9,0%. A teszt 12%-os toleranciával rögzíti, a számok egyelőre nem lettek átírva.
 - A bevásárlólista kategóriái külön „Gyümölcs" és „Egyéb" sorra váltak (korábban összevont „Gyümölcs + egyéb").
 - A bevásárlólista tételsorrendje étel-sorrendet követ, nem ABC-t.
-- A lista feletti szöveg továbbra is azt írja, hogy az olaj nincs listázva — pontatlan.
+- A shop-note most accurately states: "A bevásárlólista tartalmazza az alapfűszereket (só, bors, olaj)".
 - Régebbi, F0-on kívüli tételek: `user-scalable=no`, `--text2` kontraszt, inline `onclick` + `togCard`, hetenkénti checkbox-kulcsok, nincs export/import, nincs PWA, hardcode-olt 96 kg / 173 cm.
 
 ## Verziózás
