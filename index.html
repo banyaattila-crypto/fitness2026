@@ -210,6 +210,7 @@ body{padding-bottom:72px}
   <button class="nbtn" data-sec="supp"><i class="fa fa-pills"></i><span>Kieg.</span></button>
 </nav>
 
+<script src="data.js"></script>
 <script>
 // ---- NAVIGATION ----
 document.querySelectorAll('.nbtn').forEach(btn=>{
@@ -223,212 +224,9 @@ document.querySelectorAll('.nbtn').forEach(btn=>{
   });
 });
 
-// ---- DATA ----
-const M={
-  B1:{lbl:'REGGELI',time:'07:00',name:'Protein zabpehely',kcal:640,p:44,c:78,f:12,
-    ing:[['Zabpehely','80g'],['Félzsíros tej','250ml'],['Protein por','30g'],['Banán','1 db'],['Fahéj','csipet']],
-    rec:'1. Zabot tejjel felfőzzük, 3 percig keverjük.\n2. Levesszük a tűzről, protein port belekeverjük.\n3. Banánszeleteket ráteszük, fahéjjal megszórjuk.'},
-  B2:{lbl:'REGGELI',time:'07:00',name:'Tojásos reggeli szendvics',kcal:580,p:36,c:52,f:20,
-    ing:[['Tojás','3 db'],['Teljes kiőrlésű kenyér','2 szelet'],['Paradicsom','1 db'],['Olívaolaj','10ml']],
-    rec:'1. Tojásokat felverjük, sózzuk, borsozzuk.\n2. Olajon közepes lángon lágyra sütjük.\n3. Kenyér mellette pirósítva, friss paradicsom.'},
-  B3:{lbl:'REGGELI',time:'07:00',name:'Túrós zabpalacsinta',kcal:610,p:42,c:62,f:16,
-    ing:[['Túró','200g'],['Tojás','2 db'],['Zabpehely','60g'],['Tejföl','30g']],
-    rec:'1. Összes hozzávalót botmixerrel simára keverjük.\n2. Teflonserpenyőben olajtalan kis palacsintákat sütünk.\n3. Görög joghurttal tálalunk.'},
-  B4:{lbl:'REGGELI',time:'07:00',name:'Joghurttál + müzli',kcal:540,p:30,c:70,f:10,
-    ing:[['Görög joghurt','300g'],['Müzli','80g'],['Áfonya','100g'],['Méz','15ml']],
-    rec:'1. Joghurtot tálba öntjük.\n2. Müzlit és áfonyát rátesszük.\n3. Mézzel megcseppegtjük.'},
-  B5:{lbl:'REGGELI',time:'07:00',name:'Protein smoothie tál',kcal:590,p:40,c:72,f:12,
-    ing:[['Kefir','250ml'],['Protein por','25g'],['Banán','1 db'],['Zabpehely','50g'],['Fagyasztott eper','100g']],
-    rec:'1. Kefirt, protein port és epret turmixolunk.\n2. Smoothie tálba öntjük.\n3. Zabot és banánszeleteket rátesszük.'},
-  B6:{lbl:'REGGELI',time:'07:00',name:'Avokádós tojás kenyérrel',kcal:620,p:28,c:44,f:30,
-    ing:[['Tojás','2 db'],['Avokádó','fél db'],['Teljes kiőrlésű kenyér','2 szelet'],['Citromlé','5ml']],
-    rec:'1. Tojásokat keményre főzzük (8 perc).\n2. Avokádót villával összezúzzuk citromlével, sóval.\n3. Kenyérre kenjük, tojásszeleteket rátesszük.'},
-  B7:{lbl:'REGGELI',time:'07:00',name:'Zabkása gyümölccsel',kcal:570,p:36,c:74,f:12,
-    ing:[['Zabpehely','90g'],['Tej','200ml'],['Görög joghurt','150g'],['Eper','150g'],['Chia mag','10g']],
-    rec:'1. Zabot tejjel 4 percig főzzük.\n2. Tálba öntjük, rátesszük a joghurtot.\n3. Epret felvágjuk, chia magot szórunk rá.'},
-  L1:{lbl:'EBÉD',time:'12:30',name:'Csirkemell rizs + brokkoli',kcal:690,p:55,c:78,f:14,
-    ing:[['Csirkemell','180g'],['Rizs (száraz)','120g'],['Brokkoli','250g'],['Olívaolaj','10ml'],['Fokhagyma','2 gerezd']],
-    rec:'1. Csirkemellet befűszerezzük, serpenyőben 12 perc alatt megsütjük.\n2. Rizst kétszeres sózott vízben 18 percig főzzük.\n3. Brokkolit 5 percig pároljuk olajban, fokhagymával.'},
-  L2:{lbl:'EBÉD',time:'12:30',name:'Bolognese tészta',kcal:700,p:48,c:85,f:16,
-    ing:[['Darált pulyka','180g'],['Tészta','130g'],['Paradicsomszósz','200ml'],['Hagyma','1 db'],['Fokhagyma','2 gerezd']],
-    rec:'1. Hagymán, fokhagymán üvegesre pirítjuk.\n2. Darált pulykát hozzáadjuk, 8 percig sütjük.\n3. Paradicsomszósszal 10 percig rotyogtatjuk.\n4. Főtt tésztával összeforgatjuk.'},
-  L3:{lbl:'EBÉD',time:'12:30',name:'Csirke wrap saláta',kcal:660,p:50,c:65,f:18,
-    ing:[['Csirkemell','160g'],['Teljes kiőrlésű tortilla','2 db'],['Fejes saláta','100g'],['Paradicsom','1 db'],['Joghurtos öntet','50ml']],
-    rec:'1. Csirkemellet csíkokra vágjuk, serpenyőben megsütjük.\n2. Tortillát mikroban 30 mp-ig melegítjük.\n3. Saláta, paradicsom, csirke, öntet — göngyöljük be.'},
-  L4:{lbl:'EBÉD',time:'12:30',name:'Vöröslencsefőzelék',kcal:650,p:36,c:90,f:8,
-    ing:[['Vöröslencse','150g'],['Sárgarépa','2 db'],['Hagyma','1 db'],['Fokhagyma','2 gerezd'],['Kenyér','2 szelet']],
-    rec:'1. Hagymán, fokhagymán olajban dinsztelünk.\n2. Sárgarépa, lencse hozzáad, alaplével felöntjük.\n3. 20 percig főzzük, botmixerrel turmixoljuk.\n4. Kenyérrel tálalunk.'},
-  L5:{lbl:'EBÉD',time:'12:30',name:'Tonhálsaláta + quinoa',kcal:640,p:52,c:68,f:14,
-    ing:[['Tonhal konzerv','280g'],['Quinoa','100g'],['Uborka','1 db'],['Paradicsom','1 db'],['Citromlé','10ml'],['Olívaolaj','10ml']],
-    rec:'1. Quinoát dupla sózott vízben 15 percig főzzük.\n2. Zöldségeket felkockázzuk.\n3. Mindent összekeverünk, citromlével és olajjal locsoljuk.'},
-  L6:{lbl:'EBÉD',time:'12:30',name:'Pulyka + barna rizs saláta',kcal:700,p:56,c:80,f:14,
-    ing:[['Pulykaszelet','200g'],['Barna rizs','120g'],['Fejes saláta','150g'],['Paradicsom','1 db'],['Öntet','40ml']],
-    rec:'1. Pulykaszeletet besózzuk, serpenyőben 2x5 perc alatt megsütjük.\n2. Barna rizst 40 perc alatt főzzük.\n3. Saláta + paradicsom + rizs + pulyka + öntet.'},
-  L7:{lbl:'EBÉD',time:'12:30',name:'Fehérbab leves + pulyka',kcal:720,p:56,c:82,f:14,
-    ing:[['Fehérbab konzerv','400g'],['Pulykaszelet','150g'],['Hagyma','1 db'],['Sárgarépa','2 db'],['Zöldség alaplé','500ml']],
-    rec:'1. Zöldségeket kockázzuk, olajban dinsztelünk.\n2. Alaplével felöntjük, babbal 15 percig főzzük.\n3. Pulykaszeletet külön megsütjük, leves mellé tálalunk.'},
-  S1:{lbl:'UZSONNA',time:'15:30',name:'Túró + alma + dió',kcal:320,p:28,c:28,f:12,
-    ing:[['Túró','200g'],['Alma','1 db'],['Dió','30g']],
-    rec:'1. Túrót tálba tesszük.\n2. Almát felkockázzuk, dióval rátesszük.'},
-  S2:{lbl:'UZSONNA',time:'15:30',name:'Görög joghurt + méz + dió',kcal:290,p:22,c:30,f:12,
-    ing:[['Görög joghurt','250g'],['Méz','15ml'],['Dió','25g']],
-    rec:'1. Joghurtot tálba öntjük.\n2. Mézzel megcseppegtjük, dióval megszórjuk.'},
-  S3:{lbl:'UZSONNA',time:'15:30',name:'Mogyoróvaj + banán',kcal:340,p:14,c:42,f:14,
-    ing:[['Mogyoróvaj (100% természetes)','40g'],['Banán','1 db'],['Rizs galetta','2 db']],
-    rec:'1. Rizs galettára kenjük a mogyoróvajat.\n2. Banánszeleteket rátesszük.'},
-  S4:{lbl:'UZSONNA',time:'15:30',name:'Főtt tojás + zöldségrudak',kcal:250,p:22,c:8,f:14,
-    ing:[['Tojás','2 db'],['Uborka','1 db'],['Sárgarépa','2 db']],
-    rec:'1. Tojásokat keményre főzzük (8 perc), lehűtjük, meghámozzuk.\n2. Zöldségeket rudakra vágjuk.'},
-  D1:{lbl:'VACSORA',time:'19:00',name:'Pulykamell + párolt burgonya',kcal:650,p:52,c:65,f:16,
-    ing:[['Pulykamell','200g'],['Burgonya','250g'],['Paprika','1 db'],['Paradicsom','1 db'],['Olívaolaj','10ml']],
-    rec:'1. Burgonyát meghámozzuk, kockázzuk, 20 percig főzzük.\n2. Pulykát befűszerezzük, serpenyőben megsütjük (2x6 perc).\n3. Zöldségeket frissen tálalunk mellé.'},
-  D2:{lbl:'VACSORA',time:'19:00',name:'Lazac + édesburgonya',kcal:700,p:48,c:62,f:26,
-    ing:[['Lazacfilé','180g'],['Édesburgonya','300g'],['Citromlé','15ml'],['Brokkoli','150g'],['Olívaolaj','10ml']],
-    rec:'1. Édesburgonyát sütőben 200C-on 30 percig sütjük.\n2. Lazacot citromlével meglocsoljuk, 180C-on 12 perc.\n3. Brokkolit pároljuk, mindet együtt tálalunk.'},
-  D3:{lbl:'VACSORA',time:'19:00',name:'Csirkecomb + bulgur',kcal:660,p:52,c:64,f:18,
-    ing:[['Csirkecomb (csont nélkül)','200g'],['Bulgur','120g'],['Brokkoli','200g'],['Fokhagyma','3 gerezd']],
-    rec:'1. Csirkecombokat fokhagymás-rozmarinos olajba forgatjuk.\n2. 200C sütőben 30 percig sütjük.\n3. Bulgurt kétszeres vízben 15 percig főzzük, brokkolit pároljuk mellé.'},
-  D4:{lbl:'VACSORA',time:'19:00',name:'Rakott pulykás zöldség',kcal:620,p:50,c:52,f:18,
-    ing:[['Darált pulyka','200g'],['Cukkini','200g'],['Paradicsom','2 db'],['Hagyma','1 db'],['Tejföl','80g']],
-    rec:'1. Hagymán olajban pirítjuk, pulykát hozzáad, 8 percig sütjük.\n2. Cukkinit és paradicsomot felszeleteljük, rétegezzük.\n3. Tejfölt kanalazzuk rá, 180C-on 20 percig sütjük.'},
-  D5:{lbl:'VACSORA',time:'19:00',name:'Paradicsomos csirke + rizs',kcal:680,p:55,c:76,f:14,
-    ing:[['Csirkemell','200g'],['Rizs','120g'],['Paradicsomszósz','200ml'],['Hagyma','1 db'],['Fokhagyma','2 gerezd']],
-    rec:'1. Csirkemellet felkockázzuk, serpenyőben megsütjük.\n2. Hagymát, fokhagymát hozzáadunk, paradicsomszósszal felöntjük.\n3. 10 percig főzzük, rizzsel tálalunk.'},
-  D6:{lbl:'VACSORA',time:'19:00',name:'Zöldséges omlett + kenyér',kcal:550,p:38,c:44,f:22,
-    ing:[['Tojás','4 db'],['Cukkini','150g'],['Paprika','1 db'],['Reszelt sajt','40g'],['Kenyér','2 szelet']],
-    rec:'1. Zöldségeket felkockázzuk, olajban 4 percig pirítjuk.\n2. Felvert tojást ráöntjük, fedő alatt 5 percig sütjük.\n3. Sajtot reszélünk, kenyérrel tálalunk.'},
-  D7:{lbl:'VACSORA',time:'19:00',name:'Sült lazac + zöldség + burgonya',kcal:690,p:50,c:60,f:26,
-    ing:[['Lazacfilé','180g'],['Burgonya','200g'],['Zöldbab','150g'],['Citromlé','10ml']],
-    rec:'1. Burgonyát főzzük 20 percig.\n2. Lazacot citromlével, kapribogyóval 180C-on 15 percig sütjük.\n3. Zöldbabot pároljuk, mindent együtt tálalunk.'}
-};
-
-const SHAKE={kcal:120,p:24};
-const W14=[1,1,2,2,3,3,4];
-const W58=[5,5,6,6,7,7,4];
-const DNAMES_HU=['Hétfő','Kedd','Szerda','Csütörtök','Péntek','Szombat','Vasárnap'];
-const DNAMES_KEY=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-const DTYPES=['train','train','rest','train','train','rest','rest'];
-const MONTHS=['jan.','febr.','márc.','ápr.','máj.','jún.','júl.','aug.','szept.','okt.','nov.','dec.'];
-
-const DM={
-  1:{meals:['B1','L1','S1','D1']},
-  2:{meals:['B2','L2','S2','D2']},
-  3:{meals:['B3','L3','S3','D3']},
-  4:{meals:['B4','L4','S4','D4']},
-  5:{meals:['B5','L5','S3','D5']},
-  6:{meals:['B6','L6','S2','D6']},
-  7:{meals:['B7','L7','S1','D7']}
-};
-
-// Build 8 weeks
-const WEEKS=[];
-const START=new Date(2026,5,9); // June 9, 2026
-for(let w=0;w<8;w++){
-  const pat=(w<4)?W14:W58;
-  const days=[];
-  for(let d=0;d<7;d++){
-    const dt=new Date(2026,5,9+w*7+d);
-    days.push({
-      name:DNAMES_HU[d],
-      key:DNAMES_KEY[d],
-      dateStr:dt.getDate()+'. '+MONTHS[dt.getMonth()],
-      type:DTYPES[d],
-      dm:pat[d],
-      isRepeat:(d===1||d===3||d===5)
-    });
-  }
-  const s=new Date(2026,5,9+w*7);
-  const e=new Date(2026,5,9+w*7+6);
-  WEEKS.push({
-    label:(w+1)+'. hét',
-    dates:s.getDate()+'. '+MONTHS[s.getMonth()]+' — '+e.getDate()+'. '+MONTHS[e.getMonth()],
-    days:days,
-    phase:Math.floor(w/2)+1
-  });
-}
-
-// Training data
-const TRAIN={
-  Mon:{focus:'Mell + Tricepsz',tag:'push',
-    wu:'5 perc: 3×10 fekvőtámasz, vállmobilizáció, kárkörzés',
-    ex:[{n:'Fekvenyomás',det:'Rúddal',s:4,r:'8',base:60},{n:'Dőlt pados nyomás',det:'Kézisúlyok',s:3,r:'10',base:22},{n:'Tárogatás kábelen',det:'Keresztezett',s:3,r:'12',base:15},{n:'Francia nyomás',det:'EZ-rúd',s:3,r:'10',base:25},{n:'Tricepsz letolás',det:'Kábel',s:3,r:'12',base:30}],
-    cd:'5 perc nyújtás: mellizom, tricepsz'},
-  Tue:{focus:'Hát + Bicepsz',tag:'pull',
-    wu:'5 perc: vállmobilizáció, kézkörzés, előkészítő húzás',
-    ex:[{n:'Húzódzkodás',det:'Semleges fogás',s:3,r:'max 6–10',base:null},{n:'Evezés rúddal',det:'Hajolt törzs',s:4,r:'8',base:50},{n:'Lat pulldown',det:'Széles fogás',s:3,r:'10',base:55},{n:'Kézisúlyos evezés',det:'Egykaros',s:3,r:'12',base:24},{n:'Bicepsz curl',det:'Rúddal',s:4,r:'10',base:30},{n:'Kalapácsos curl',det:'Kézisúlyok',s:3,r:'12',base:14}],
-    cd:'Nyújtás: széles hát, bicepsz, alkar'},
-  Thu:{focus:'Váll + Has',tag:'shoulders',
-    wu:'5 perc: oldalemelés könnyű súllyal, nyakkörzés',
-    ex:[{n:'Ülő vállnyomás',det:'Kézisúlyok',s:4,r:'8',base:20},{n:'Oldalsó emelés',det:'Kézisúlyok',s:3,r:'12',base:10},{n:'Előemelés',det:'Kézisúlyok',s:3,r:'12',base:10},{n:'Hátsó deltoid gép',det:'Hajolva',s:3,r:'12',base:20},{n:'Plank',det:'Statikus tartás',s:3,r:'45 mp',base:null},{n:'Hasprés',det:'Térd felhúzással',s:3,r:'20',base:null},{n:'Lábemeléses hasprés',det:'Hanyatt fekve',s:3,r:'15',base:null}],
-    cd:'Nyújtás: váll, deréktáj, csípő'},
-  Fri:{focus:'Könnyű Láb + Összefoglaló',tag:'legs',
-    wu:'5 perc: helyben járás, lábkörzés, guggolás súly nélkül',
-    ex:[{n:'Lábnyomás (gép)',det:'Könnyű súly!',s:3,r:'12',base:80},{n:'Lábhajlítás gép',det:'Fekvő',s:3,r:'12',base:30},{n:'Vádliemelés',det:'Állva, kézisúlyokkal',s:4,r:'15',base:20},{n:'Kettlebell swing',det:'Csípőlendítés',s:3,r:'15',base:16},{n:'Pull-through',det:'Kábel, alsó csúszda',s:3,r:'12',base:20}],
-    cd:'10 perc nyújtás: comb, vádli, csípő'},
-  Rest:{focus:'Pihenőnap',tag:'rest',wu:null,ex:[],cd:null}
-};
-const PMULT=[1,1.05,1.10,1.15];
-function trainDay(type,key){
-  if(type==='rest') return TRAIN.Rest;
-  if(key==='Mon') return TRAIN.Mon;
-  if(key==='Tue') return TRAIN.Tue;
-  if(key==='Thu') return TRAIN.Thu;
-  return TRAIN.Fri;
-}
-function fmtKg(base,ph){
-  if(base===null) return '—';
-  return Math.round(base*PMULT[ph-1])+' kg';
-}
-
-// Shopping items by DM type
-const SITEMS={
-  1:[{cat:'Fehérje',items:[['Csirkemell','360g'],['Pulykamell','400g'],['Protein por','60g']]},
-     {cat:'Gabona',items:[['Zabpehely','160g'],['Rizs','240g']]},
-     {cat:'Tejtermék',items:[['Félzsíros tej','500ml'],['Túró','400g']]},
-     {cat:'Zöldség',items:[['Brokkoli','500g'],['Burgonya','500g'],['Paprika','2 db'],['Paradicsom','2 db'],['Fokhagyma','1 fej']]},
-     {cat:'Gyümölcs + egyéb',items:[['Banán','2 db'],['Alma','2 db'],['Dió','60g'],['Olívaolaj','20ml']]}],
-  2:[{cat:'Fehérje',items:[['Darált pulyka','360g'],['Lazacfilé','360g'],['Tojás','6 db']]},
-     {cat:'Gabona',items:[['Tészta','260g'],['Teljes kiőrlésű kenyér','4 szelet']]},
-     {cat:'Tejtermék',items:[['Görög joghurt','500g'],['Méz','20ml'],['Dió','50g']]},
-     {cat:'Zöldség',items:[['Édesburgonya','600g'],['Saláta','200g'],['Paradicsom','2 db'],['Hagyma','2 db']]},
-     {cat:'Egyéb',items:[['Paradicsomszósz','400ml']]}],
-  3:[{cat:'Fehérje',items:[['Csirkemell','320g'],['Csirkecomb (csont nélkül)','400g'],['Tojás','4 db']]},
-     {cat:'Gabona',items:[['Zabpehely','120g'],['Bulgur','240g'],['Tortilla','2 db']]},
-     {cat:'Tejtermék',items:[['Túró','400g'],['Tejföl','60g']]},
-     {cat:'Zöldség',items:[['Brokkoli','400g'],['Fejes saláta','200g'],['Paradicsom','2 db']]},
-     {cat:'Gyümölcs + egyéb',items:[['Banán','2 db'],['Mogyoróvaj','80g'],['Joghurtos öntet','100ml']]}],
-  4:[{cat:'Fehérje',items:[['Darált pulyka','200g'],['Tojás','2 db']]},
-     {cat:'Gabona',items:[['Müzli','80g'],['Kenyér','2 szelet'],['Vöröslencse','150g']]},
-     {cat:'Tejtermék',items:[['Görög joghurt','200g'],['Tejföl','80g']]},
-     {cat:'Zöldség',items:[['Cukkini','200g'],['Sárgarépa','2 db'],['Hagyma','1 db']]},
-     {cat:'Gyümölcs + egyéb',items:[['Áfonya','100g'],['Uborka','1 db'],['Méz','15ml']]}],
-  5:[{cat:'Fehérje',items:[['Csirkemell','400g'],['Tonhal konzerv','4 db'],['Protein por','50g']]},
-     {cat:'Gabona',items:[['Quinoa','200g'],['Zabkeksz','120g']]},
-     {cat:'Tejtermék',items:[['Kefir','500ml'],['Túró','300g']]},
-     {cat:'Zöldség',items:[['Mix saláta','300g'],['Uborka','2 db'],['Paradicsom','2 db']]},
-     {cat:'Gyümölcs + egyéb',items:[['Banán','2 db'],['Mandula','50g'],['Fagyasztott eper','200g']]}],
-  6:[{cat:'Fehérje',items:[['Pulykaszelet','400g'],['Tojás','10 db']]},
-     {cat:'Gabona',items:[['Barna rizs','240g'],['Teljes kiőrlésű kenyér','4 szelet'],['Müzli','120g']]},
-     {cat:'Tejtermék',items:[['Kefir','400ml'],['Reszelt sajt','80g']]},
-     {cat:'Zöldség',items:[['Fejes saláta','200g'],['Paprika','2 db'],['Cukkini','300g'],['Avokádó','2 db']]},
-     {cat:'Egyéb',items:[['Olívaolaj','20ml']]}],
-  7:[{cat:'Fehérje',items:[['Lazacfilé','360g'],['Pulykaszelet','300g']]},
-     {cat:'Gabona',items:[['Zabpehely','180g'],['Burgonya','400g']]},
-     {cat:'Tejtermék',items:[['Görög joghurt','300g']]},
-     {cat:'Zöldség',items:[['Zöldbab','300g'],['Paradicsom','4 db'],['Hagyma','2 db']]},
-     {cat:'Gyümölcs + egyéb',items:[['Eper','300g'],['Dió','60g'],['Sajt','80g']]}]
-};
-
-const SUPPS=[
-  {icon:'fa-jar',color:'var(--gold)',name:'Scitec Whey Protein',when:'Edzés után 30 percen belül',
-   desc:'30g fehérjepor 250ml vízzel vagy tejjel. Edzésmentes napokon is fogyasztható reggel vagy uzsonnaként. A leucin-tartalom optimálisan stimulálja az izomnövekedést.'},
-  {icon:'fa-tablets',color:'var(--cyan)',name:'Magnézium (Mg) 375mg',when:'Lefekvés előtt 30–60 perccel',
-   desc:'Magnézium-biszglicinát forma a legjobb felszívódáshoz. Segíti az izomrelaxációt, csökkenti az esti görcsöket, javítja az alvásminőséget.'},
-  {icon:'fa-capsules',color:'var(--gold2)',name:'Kalcium (Ca) 500mg',when:'Reggel étkezés közben',
-   desc:'Étkezéssel együtt szedendő. NEM szedendő magnéziummal egy időben — egymás felszívódását zavarják.'},
-  {icon:'fa-fire',color:'var(--green)',name:'Kreatin (opcionális)',when:'Bármikor, naponta 5g',
-   desc:'Kreatin-monohidrát 5g/nap, minden nap. Töltési fázis nem szükséges. 3–4 hét után teljes hatás: erőnövekedés, rövidebb regeneráció.'}
-];
+// ---- DATA (generalva: data.js) ----
+// Az adatokat a scripts/build-data.mjs allitja elo a src/ modulokbol.
+const {M, DM, SHAKE, WEEKS, SUPPS, W14, W58, trainDay, fmtKg, buildShopList, dayTotals} = window.BF;
 
 // ---- RENDER DIET ----
 let cDW=0;
@@ -454,9 +252,7 @@ function renderDietContent(){
   let h=`<div class="phase-info"><i class="fa fa-star" style="margin-right:6px"></i>${w.phase}. fázis &bull; ${pLabels[w.phase-1]} &bull; <span style="opacity:.8">${w.dates}</span></div>`;
   w.days.forEach(day=>{
     const dm=DM[day.dm];
-    let dk=0,dp=0;
-    dm.meals.forEach(mid=>{dk+=M[mid].kcal;dp+=M[mid].p;});
-    if(day.type==='train'){dk+=SHAKE.kcal;dp+=SHAKE.p;}
+    const {kcal:dk,p:dp}=dayTotals(day);
     const repBadge=day.isRepeat?`<span style="font-size:10px;color:var(--text2);margin-left:6px"><i class="fa fa-rotate"></i> ismétlő</span>`:'';
     h+=`<div class="dcard">
 <div class="dhdr" onclick="togCard(this,'dcontent')">
@@ -566,7 +362,7 @@ function renderShopContent(){
   });
   let h=`<div class="shop-note"><i class="fa fa-lightbulb" style="color:var(--gold);margin-right:6px"></i>A 2-napos ismétlő menü miatt elég kétnaponként bevásárolni. Pipáld ki amit megvettél — az alkalmazás megjegyzi! Az alapfűszerek (só, bors, olaj) nincsenek listázva.</div>`;
   trips.forEach((trip,ti)=>{
-    const cats=SITEMS[trip.dm];
+    const cats=buildShopList(trip.dm);
     h+=`<div class="shop-trip"><div class="strip-hdr" onclick="togCard(this,'strip-body')">
 <div><div class="strip-title">Bevásárlás: ${ti+1}. kör</div><div class="strip-sub">${trip.label}</div></div>
 <i class="fa fa-chevron-down dcaret"></i></div>
