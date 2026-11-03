@@ -364,7 +364,7 @@ function renderShopContent(){
       trips.push({dm,label});
     }
   });
-  let h=`<div class="shop-note"><i class="fa fa-lightbulb" style="color:var(--gold);margin-right:6px"></i>A 2-napos ismétlő menü miatt elég kétnaponként bevásárolni. Pipáld ki amit megvettél — az alkalmazás megjegyzi! Az alapfűszerek (só, bors, olaj) nincsenek listázva.</div>`;
+  let h=`<div class="shop-note"><i class="fa fa-lightbulb" style="color:var(--gold);margin-right:6px"></i>A 2-napos ismétlő menü miatt elég kétnaponként bevásárolni. Pipáld ki amit megvettél — az alkalmazás megjegyzi! A bevásárlólista tartalmazza az alapfűszereket (só, bors, olaj).</div>`;
   trips.forEach((trip,ti)=>{
     const cats=buildShopList(trip.dm);
     h+=`<div class="shop-trip"><div class="strip-hdr" onclick="togCard(this,'strip-body')">
